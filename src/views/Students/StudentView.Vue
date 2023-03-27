@@ -1,5 +1,73 @@
 <template>
-  <main>
-    <h1>This is Student Page</h1>
-  </main>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h4>
+          Student
+          <RouterLink to="/student/create" class="btn btn-primary float-end"
+            >Add Student</RouterLink
+          >
+        </h4>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Created At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody v-if="this.students.length > 0">
+            <tr v-for="(student, index) in this.students" :key="index">
+              <td>{{ student.id }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.course }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.phone }}</td>
+              <td>{{ student.created_at }}</td>
+              <td>
+                <RouterLink to="/student/edit" class="btn btn-success">Edit</RouterLink>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'students',
+  data() {
+    return {
+      students: []
+    }
+  },
+  mounted() {
+    this.getStudents()
+    // console.log('ini mounted test')
+  },
+  methods: {
+    getStudents() {
+      axios.get('http://localhost:8000/api/students').then((res) => {
+        this.students = res.data.students
+        // console.log(this.student)
+      })
+    }
+  }
+}
+</script>
