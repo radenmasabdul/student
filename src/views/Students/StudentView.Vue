@@ -24,14 +24,18 @@
           </thead>
           <tbody v-if="this.students.length > 0">
             <tr v-for="(student, index) in this.students" :key="index">
-              <td>{{ student.id }}</td>
+              <td>{{ index + 1 }}</td>
               <td>{{ student.name }}</td>
               <td>{{ student.course }}</td>
               <td>{{ student.email }}</td>
               <td>{{ student.phone }}</td>
               <td>{{ student.created_at }}</td>
               <td>
-                <RouterLink to="/student/edit" class="btn btn-success">Edit</RouterLink>
+                <RouterLink
+                  :to="{ path: '/student/' + student.id + '/edit' }"
+                  class="btn btn-success"
+                  >Edit</RouterLink
+                >
                 <button type="button" class="btn btn-danger">Delete</button>
               </td>
             </tr>
